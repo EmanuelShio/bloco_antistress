@@ -4,13 +4,41 @@
   "description": "Um brinquedo virtual antistress: toque, pressione e arraste o bloco para relaxar.",
   "start_url": "./index.html",
   "scope": "./",
-  "display": "standalone",
-  "orientation": "any",
-  "background_color": "#DCEAE3",
-  "theme_color": "#8A75C9",
-  "lang": "pt-BR",
+  "background_color": "#ffffff",
   "dir": "ltr",
-  "categories": ["entertainment", "lifestyle", "games"],
+  "display": "standalone",
+  "name": "Bloco Antistress",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Bloco Antistress",
+  "start_url": "/",
+  "theme_color": "#850096",
+  "icons": [
+    {
+      "src": "https://claude.ai/favicon.ico",
+      "type": "image/x-icon",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "000069",
+  "description": "O aplicativo Bloco Antistress foi desenvolvido para oferecer uma experiência simples de relaxamento (simulador de plástico bolha).",
+  "lang": "pt",
+  "display_override": [
+    "window-controls-overlay"
+  ],
+  "categories": [
+    "development",
+    "entertainment",
+    "games"
+  ]
+},
   "icons": [
     {
       "src": "icons/icon-192.png",
