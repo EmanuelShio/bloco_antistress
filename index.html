@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="relaxante" data-motion="alta">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Bloco Antistress</title>
+<meta name="description" content="Um brinquedo virtual antistress: toque, pressione e arraste o bloco para relaxar." />
+<meta name="theme-color" content="#8A75C9" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-180.png" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Bloco" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ===================== SPLASH ===================== -->
+  <section id="screen-splash" class="screen-splash">
+    <div class="splash-top">
+      <svg class="splash-logo" viewBox="0 0 132 132" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--block-a)"/>
+            <stop offset="1" stop-color="var(--block-b)"/>
+          </linearGradient>
+        </defs>
+        <rect x="14" y="18" width="104" height="104" rx="26" fill="url(#logoGrad)"/>
+        <ellipse cx="46" cy="42" rx="20" ry="12" fill="#ffffff" opacity="0.35"/>
+      </svg>
+      <h1 class="splash-title">BLOCO ANTISTRESS</h1>
+      <p class="splash-tagline">Toque, aperte e arraste. Um cantinho quieto no seu bolso.</p>
+    </div>
+    <div class="splash-bottom">
+      <button id="btn-start" class="btn-primary">COMEÇAR</button>
+      <p class="splash-hint">Funciona offline, sem anúncios e sem coletar dados.</p>
+    </div>
+  </section>
+
+  <!-- ===================== JOGO ===================== -->
+  <section id="screen-game" class="screen-game hidden">
+    <header class="topbar">
+      <p class="topbar-title">BLOCO ANTISTRESS</p>
+      <div class="topbar-actions">
+        <button id="btn-sound" class="icon-btn" data-muted="false" aria-label="Alternar som">
+          <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4.5 4.5 0 0 1 0 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button id="btn-stats" class="icon-btn" aria-label="Ver estatísticas">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 19V11M12 19V5M19 19v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button id="btn-settings" class="icon-btn" aria-label="Abrir configurações">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 13a7.9 7.9 0 0 0 0-2l2-1.5-2-3.4-2.3.9a7.7 7.7 0 0 0-1.7-1L15 3h-6l-.4 2.9a7.7 7.7 0 0 0-1.7 1l-2.3-.9-2 3.4L4.6 11a7.9 7.9 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9c.5.4 1.1.8 1.7 1L9 21h6l.4-2.9a7.7 7.7 0 0 0 1.7-1l2.3.9 2-3.4-2-1.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="stage" class="stage">
+      <div class="energy-bar hidden" id="energy-bar"><div class="energy-bar-fill" id="energy-bar-fill"></div></div>
+      <div class="stage-bg-orb" aria-hidden="true"></div>
+      <div class="block-wrap" id="block-wrap">
+        <div class="block" id="block">
+          <div class="block-sheen"></div>
+          <div class="block-face"></div>
+        </div>
+      </div>
+      <p class="stage-instructions" id="instructions">toque · pressione · arraste</p>
+    </main>
+
+    <footer class="bottombar">
+      <div class="stat-pill">
+        <span class="stat-value" id="tap-counter">0</span>
+        <span class="stat-label">toques</span>
+      </div>
+      <div class="mode-toggle" id="mode-toggle">
+        <button data-mode="relaxante" class="active">Relaxante</button>
+        <button data-mode="desafio">Desafio</button>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ===================== OVERLAY (sheets) ===================== -->
+  <div id="sheet-overlay" class="sheet-overlay"></div>
+
+  <!-- ===================== CONFIGURAÇÕES ===================== -->
+  <section id="sheet-settings" class="sheet" aria-label="Configurações">
+    <div class="sheet-handle"></div>
+    <h2>Configurações</h2>
+
+    <div class="row">
+      <div>
+        <div class="row-label">Som</div>
+        <div class="row-sub">Efeitos sonoros do bloco</div>
+      </div>
+      <div class="switch on" id="switch-sound" role="switch" aria-checked="true"></div>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="row-label">Vibração</div>
+        <div class="row-sub">Feedback tátil (se disponível)</div>
+      </div>
+      <div class="switch on" id="switch-vibration" role="switch" aria-checked="true"></div>
+    </div>
+
+    <div class="row" style="flex-direction:column; align-items:stretch; gap:8px;">
+      <div class="row-label">Volume</div>
+      <input type="range" id="range-volume" min="0" max="100" value="80" style="width:100%; accent-color:var(--block-b);" />
+    </div>
+
+    <div class="row" style="flex-direction:column; align-items:stretch; gap:8px;">
+      <div class="row-label">Intensidade das animações</div>
+      <div class="segmented" id="segmented-motion">
+        <button data-value="alta" class="active">Alta</button>
+        <button data-value="baixa">Baixa</button>
+        <button data-value="off">Desligada</button>
+      </div>
+    </div>
+
+    <div class="row" style="flex-direction:column; align-items:stretch; gap:8px;">
+      <div class="row-label">Tema</div>
+      <div class="segmented" id="segmented-theme">
+        <button data-value="relaxante" class="active">Relaxante</button>
+        <button data-value="escuro">Escuro</button>
+        <button data-value="neon">Neon</button>
+      </div>
+    </div>
+
+    <button id="btn-install" class="btn-secondary hidden">Instalar aplicativo</button>
+    <button id="btn-reset-stats" class="btn-secondary danger">Redefinir estatísticas</button>
+
+    <div class="row" style="border-top:1px solid var(--border); margin-top:10px; padding-top:14px; flex-direction:column; align-items:stretch;">
+      <div class="row-label">Sobre</div>
+      <p class="about-text">Bloco Antistress é um brinquedo virtual para relaxar em qualquer lugar. Funciona 100% offline, não coleta dados pessoais e não exibe anúncios.</p>
+    </div>
+  </section>
+
+  <!-- ===================== ESTATÍSTICAS ===================== -->
+  <section id="sheet-stats" class="sheet" aria-label="Estatísticas">
+    <div class="sheet-handle"></div>
+    <h2>Estatísticas</h2>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="num" id="stat-taps">0</div><div class="lbl">Toques totais</div></div>
+      <div class="stat-card"><div class="num" id="stat-interactions">0</div><div class="lbl">Interações</div></div>
+      <div class="stat-card"><div class="num" id="stat-time">0min</div><div class="lbl">Tempo jogado</div></div>
+      <div class="stat-card"><div class="num" id="stat-streak">0</div><div class="lbl">Maior sequência</div></div>
+    </div>
+    <div class="row-label" style="margin:12px 0 6px;">Interações especiais descobertas</div>
+    <div class="discoveries" id="discoveries-list"></div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script src="storage.js"></script>
+<script src="audio.js"></script>
+<script src="game.js"></script>
+<script src="pwa.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
